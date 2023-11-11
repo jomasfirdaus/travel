@@ -1,0 +1,119 @@
+{% extends 'utilizador/layout.html' %}
+{% block content %}
+{% load fegt9_mpg_proteksaun_url %}
+
+		<!-- ============================================================== -->
+						<!-- pageheader  -->
+						<!-- ============================================================== -->
+						<div class="row">
+							<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+								<div class="page-header">
+									<h2 class="pageheader-title">Travel</h2>
+									<p class="pageheader-text">Nulla euismod urna eros, sit amet scelerisque torton lectus vel mauris facilisis faucibus at enim quis massa lobortis rutrum.</p>
+									<div class="page-breadcrumb">
+										<nav aria-label="breadcrumb">
+											<ol class="breadcrumb">
+												<li class="breadcrumb-item"><a href="#" class="breadcrumb-link">CVTL</a></li>
+												<li class="breadcrumb-item active" aria-current="page">Hris Painel</li>
+											</ol>
+
+                                            
+										</nav>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- ============================================================== -->
+						<!-- end pageheader  -->
+						<!-- ============================================================== -->
+						<div class="ecommerce-widget">
+	
+				
+							<div class="row">
+								<!-- ============================================================== -->
+						  
+								<!-- ============================================================== -->
+	
+											  <!-- recent orders  -->
+								<!-- ============================================================== -->
+								<div class="col-xl-12 col-lg-12 col-md-6 col-sm-12 col-12">
+									<div class="card">
+										<h5 class="card-header">Travel Authorization  <a href="{% url 'travel:requesttravel' %}" class="btn btn-primary btn-sm float-right ">  <i class="far fa-paper-plane"></i> Request Travel</a></h5>      
+                                        
+                                     
+										<div class="card-body p-0">
+											<div class="table-responsive">
+												<table class="table table-sm">
+													<thead class="bg-light">
+														<tr class="border-0">
+															<th class="border-0">Nu</th>
+															<th class="border-0">Project Name</th>
+															<th class="border-0">Place of Departure</th>
+															<th class="border-0">Departure Date Time</th>
+															<th class="border-0">Return Date Time</th>
+															<th class="border-0">Purpose of Travel</th>
+															<th class="border-0">Status</th>
+															<th class="border-0">#</th>
+													
+														</tr>
+													</thead>
+													<tbody>
+
+                                                        {% for dados in dadosta %}
+														<tr>
+														
+															<td>{{forloop.counter}}</td>
+															<td>{{dados.project_name}}</td>
+															<td>{{dados.place_of_departure}}</td>
+														
+															<td>{{dados.departure_date}}</td>
+															<td>{{dados.return_date}}</td>
+													
+                                                            <td>{{dados.purpose_of_travel}}</td>
+															<td>
+																{% if dados.is_draft %}
+																Draft |     <a href="{% url 'purchase_request:sendpurchaserequest' dados.id|encrypt_id_tag %}" class="btn btn-primary btn-sm" > Send  <i class="far fa-paper-plane"></i>  </a>
+                                                       
+																{% else %}
+																<font color="green">Send</font>
+																{% endif %}
+
+															</td>
+													
+															<td>
+
+                                                             <!-- <a href="{% url 'rekrutamentu:publikavaga' dados.id|encrypt_id_tag %}" class="btn btn-primary btn-sm" >  <i class=" fas fa-volume-up"></i> Publika vaga</a> -->
+                                                             <a href="{% url 'travel:editrequesttravel' dados.id|encrypt_id_tag %}" class="btn btn-primary btn-sm" >  <i class="fas fa-edit"></i> </a>
+                                                             <!-- <a href="{% url 'rekrutamentu:publikavaga' dados.id|encrypt_id_tag %}" class="btn btn-primary btn-sm" >  <i class="fas fa-trash"></i> </a> -->
+															 <a href="{% url 'travel:detallutravelrequest' dados.id|encrypt_id_tag %}" class="btn btn-primary btn-sm" >  <i class="fas fa-edit"></i> Detallu Travel </a>
+                                                            
+                                                             
+
+                                                            </td>
+														</tr>
+                                                        {% endfor %}
+													
+													</tbody>
+												</table>
+											</div>
+										</div>
+									</div>
+								</div>
+								<!-- ============================================================== -->
+								<!-- end recent orders  -->
+	
+		
+								<!-- ============================================================== -->
+								<!-- ============================================================== -->
+								<!-- customer acquistion  -->
+								<!-- ============================================================== -->
+							
+								<!-- ============================================================== -->
+								<!-- end customer acquistion  -->
+								<!-- ============================================================== -->
+							</div>
+				
+						
+						</div>
+
+{% endblock content %}
