@@ -58,40 +58,45 @@
 														</tr>
 													</thead>
 													<tbody>
-
-                                                        {% for dados in dadosta %}
-														<tr>
+														{% if dadosta %}
+															{% for dados in dadosta %}
+															<tr>
+															
+																<td>{{forloop.counter}}</td>
+																<td>{{dados.project_name}}</td>
+																<td>{{dados.place_of_departure}}</td>
+															
+																<td>{{dados.departure_date}}</td>
+																<td>{{dados.return_date}}</td>
 														
-															<td>{{forloop.counter}}</td>
-															<td>{{dados.project_name}}</td>
-															<td>{{dados.place_of_departure}}</td>
+																<td>{{dados.purpose_of_travel}}</td>
+																<td>
+																	{% if dados.is_draft %}
+																	Draft |     <a href="{% url 'purchase_request:sendpurchaserequest' dados.id|encrypt_id_tag %}" class="btn btn-primary btn-sm" > Send  <i class="far fa-paper-plane"></i>  </a>
 														
-															<td>{{dados.departure_date}}</td>
-															<td>{{dados.return_date}}</td>
-													
-                                                            <td>{{dados.purpose_of_travel}}</td>
-															<td>
-																{% if dados.is_draft %}
-																Draft |     <a href="{% url 'purchase_request:sendpurchaserequest' dados.id|encrypt_id_tag %}" class="btn btn-primary btn-sm" > Send  <i class="far fa-paper-plane"></i>  </a>
-                                                       
-																{% else %}
-																<font color="green">Send</font>
-																{% endif %}
+																	{% else %}
+																	<font color="green">Send</font>
+																	{% endif %}
 
-															</td>
-													
-															<td>
+																</td>
+														
+																<td>
 
-                                                             <!-- <a href="{% url 'rekrutamentu:publikavaga' dados.id|encrypt_id_tag %}" class="btn btn-primary btn-sm" >  <i class=" fas fa-volume-up"></i> Publika vaga</a> -->
-                                                             <a href="{% url 'travel:editrequesttravel' dados.id|encrypt_id_tag %}" class="btn btn-primary btn-sm" >  <i class="fas fa-edit"></i> </a>
-                                                             <!-- <a href="{% url 'rekrutamentu:publikavaga' dados.id|encrypt_id_tag %}" class="btn btn-primary btn-sm" >  <i class="fas fa-trash"></i> </a> -->
-															 <a href="{% url 'travel:detallutravelrequest' dados.id|encrypt_id_tag %}" class="btn btn-primary btn-sm" >  <i class="fas fa-edit"></i> Detallu Travel </a>
-                                                            
-                                                             
+																<!-- <a href="{% url 'rekrutamentu:publikavaga' dados.id|encrypt_id_tag %}" class="btn btn-primary btn-sm" >  <i class=" fas fa-volume-up"></i> Publika vaga</a> -->
+																<a href="{% url 'travel:editrequesttravel' dados.id|encrypt_id_tag %}" class="btn btn-primary btn-sm" >  <i class="fas fa-edit"></i> </a>
+																<!-- <a href="{% url 'rekrutamentu:publikavaga' dados.id|encrypt_id_tag %}" class="btn btn-primary btn-sm" >  <i class="fas fa-trash"></i> </a> -->
+																<a href="{% url 'travel:detallutravelrequest' dados.id|encrypt_id_tag %}" class="btn btn-primary btn-sm" >  <i class="fas fa-edit"></i> Detallu Travel </a>
+																
+																
 
-                                                            </td>
-														</tr>
-                                                        {% endfor %}
+																</td>
+															</tr>
+															{% endfor %}
+														{% else %}
+															<tr>
+																<td colspan="8" align="center">No data</td>
+															</tr>
+														{% endif %}
 													
 													</tbody>
 												</table>

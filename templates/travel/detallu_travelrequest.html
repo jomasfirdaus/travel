@@ -38,19 +38,44 @@
                                     <div class="card">
                                         <div class="card-header p-4">
                                              <a class="pt-2 d-inline-block" href="index.html">
-												<b>Titulu </b> : {{travelautorization.departure_date}} <br>
-												<b>Atividade :</b> {{travelautorization.place_of_departure}} <br> <b>Project :</b> {{travelautorization.return_date}} </a>
-                                           
-                                            <div class="float-right"> <h3 class="mb-0">Purchase Request</h3>
-												{{travelautorization.request_date}}</div>
-                                        </div>
-                                        <div class="card-body">
-                                       <legend>
-										<h5 class="card-header">Car Request  <a href="{% url 'travel:addcarrequest'  travelautorization.id|encrypt_id_tag  %}" class="btn btn-primary btn-sm float-right ">  <i class="far fa-paper-plane"></i> Add Car</a></h5>
+												<b>Place of Departure </b> : {{travelautorization.place_of_departure}} <br>
+												<b>Departure Date :</b> {{travelautorization.departure_date}} <br>
+												<b>Return Date :</b> {{travelautorization.return_date}} </a>
 
-                                        
-									   </legend>
-									   <div class="table-responsive">
+                                            <div class="float-right">
+												<h3 class="mb-0">{{travelautorization.purpose_of_travel}}</h3>
+												{{travelautorization.project_name}}<br>
+												{{travelautorization.contract}} {{travelautorization.contract.department}}<br>
+												Requested at {{travelautorization.created_at}} by {{travelautorization.created_by}}
+											</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+								<!-- Simple tabs  -->
+                        <!-- ============================================================== -->
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mb-5">
+                            <div class="simple-card">
+                                <ul class="nav nav-tabs" id="myTab5" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link {{tab_Car}}" data-toggle="tab" href="{% url 'travel:detallutravelrequesttab' travelautorization.id|encrypt_id_tag 'Car' %}" role="tab" aria-controls="home" aria-selected="true">Car Request</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link {{tab_Person}}" data-toggle="tab" href="{% url 'travel:detallutravelrequesttab' travelautorization.id|encrypt_id_tag 'Person' %}" role="tab" aria-controls="home" aria-selected="true">Person Traveling</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link {{tab_Route}}" data-toggle="tab" href="{% url 'travel:detallutravelrequesttab' travelautorization.id|encrypt_id_tag 'Route' %}" role="tab" aria-controls="home" aria-selected="true">Route Travel</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link {{tab_Mission}}" data-toggle="tab" href="{% url 'travel:detallutravelrequesttab' travelautorization.id|encrypt_id_tag 'Mission' %}" role="tab" aria-controls="home" aria-selected="true">Mission</a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content" id="myTabContent5">
+                                    {% if tab == 'Car' %}
+									<legend>
+										<h5 class="card-header">Car Request  <a href="{% url 'travel:addcarrequest'  travelautorization.id|encrypt_id_tag  %}" class="btn btn-primary btn-sm float-right ">  <i class="far fa-paper-plane"></i> Add Car</a></h5>
+									</legend>
+									<div class="table-responsive">
 										<table class="table table-sm table-bordered">
 											<thead class="bg-light">
 												<tr class="border-0">
@@ -63,194 +88,136 @@
 												</tr>
 											</thead>
 											<tbody>
-	
-												{% for dados in carRequest %}
-												<tr>
-												
-													<td>{{forloop.counter}}</td>
-													<td>{{dados.car}}</td>
-				
-													<td>{{dados.driver}}</td>
-							
-											
-													<td>
-	
-	
-														
-	
-													 <!-- <a href="{% url 'rekrutamentu:publikavaga' dados.id|encrypt_id_tag %}" class="btn btn-primary btn-sm" >  <i class=" fas fa-volume-up"></i> Publika vaga</a> -->
-													 <a href="{% url 'travel:editcarrequest' dados.id|encrypt_id_tag %}" class="btn btn-primary btn-sm" >  <i class="fas fa-edit"></i> </a>
-													 <!-- <a href="{% url 'rekrutamentu:publikavaga' dados.id|encrypt_id_tag %}" class="btn btn-primary btn-sm" >  <i class="fas fa-trash"></i> </a> -->
-													  <a href="{% url 'travel:apagacarrequest' dados.id|encrypt_id_tag %}" class="btn btn-primary btn-sm" >  <i class="fas fa-trash"></i> </a>
-
-													 
-	
-													</td>
-												</tr>
-												{% endfor %}
-											
+												{% if dados %}
+													{% for dadoslp in dados %}
+													<tr>
+														<td>{{forloop.counter}}</td>
+														<td>{{dadoslp.car}}</td>
+														<td>{{dadoslp.driver}}</td>
+														<td>
+															<a href="{% url 'travel:editcarrequest' dadoslp.id|encrypt_id_tag %}" class="btn btn-primary btn-sm" >  <i class="fas fa-edit"></i> </a>
+															<a href="{% url 'travel:apagacarrequest' dadoslp.id|encrypt_id_tag %}" class="btn btn-primary btn-sm" >  <i class="fas fa-trash"></i> </a>
+														</td>
+													</tr>
+													{% endfor %}
+												{% else %}
+													<tr>
+														<td colspan="4">No Car Listed</td>
+													</tr>
+												{% endif %}
 											</tbody>
 										</table>
-
-
-									   </div>
-									  
-                                        </div>
-										
-                                        <div class="card-body">
-											<legend>
-											 <h5 class="card-header">Person Traveling  <a href="{% url 'travel:addpersontraveling'  travelautorization.id|encrypt_id_tag  %}" class="btn btn-primary btn-sm float-right ">  <i class="far fa-paper-plane"></i> Add Person</a></h5>
-	 
-											 
-											</legend>
-											<div class="table-responsive">
-											 <table class="table table-sm table-bordered">
-												 <thead class="bg-light">
-													 <tr class="border-0">
-														 <th class="border-0">Nu</th>
-														 <th class="border-0"> Employee</th>
-														 <th class="border-0">#</th>
-												 
-													 </tr>
-												 </thead>
-												 <tbody>
-		 
-													 {% for dados in personTraveling %}
-													 <tr>
-													 
-														 <td>{{forloop.counter}}</td>
-														 <td>{{dados.employee}}</td>
-								 
-												 
-														 <td>
-		 
-		 
-															 
-		 
-														  <!-- <a href="{% url 'rekrutamentu:publikavaga' dados.id|encrypt_id_tag %}" class="btn btn-primary btn-sm" >  <i class=" fas fa-volume-up"></i> Publika vaga</a> -->
-														  <a href="{% url 'travel:editpersontraveling' dados.id|encrypt_id_tag %}" class="btn btn-primary btn-sm" >  <i class="fas fa-edit"></i> </a>
-														  <!-- <a href="{% url 'rekrutamentu:publikavaga' dados.id|encrypt_id_tag %}" class="btn btn-primary btn-sm" >  <i class="fas fa-trash"></i> </a> -->
-														   <a href="{% url 'travel:apagapersontraveling' dados.id|encrypt_id_tag %}" class="btn btn-primary btn-sm" >  <i class="fas fa-trash"></i> </a>
-	 
-														  
-		 
-														 </td>
-													 </tr>
-													 {% endfor %}
-												 
-												 </tbody>
-											 </table>
-	 
-	 
-											</div>
-										   
-											 </div>
-										
-											 <div class="card-body">
-												 <legend>
-												  <h5 class="card-header">Route Traveling  <a href="{% url 'travel:addroutetraveling'  travelautorization.id|encrypt_id_tag  %}" class="btn btn-primary btn-sm float-right ">  <i class="far fa-paper-plane"></i> Add Route</a></h5>
-		  
-												  
-												 </legend>
-												 <div class="table-responsive">
-												  <table class="table table-sm table-bordered">
-													  <thead class="bg-light">
-														  <tr class="border-0">
-															  <th class="border-0">Nu</th>
-															  <th class="border-0"> Munisipiu</th>
-															  <th class="border-0"> Deskrisaun</th>
-															  <th class="border-0">#</th>
-													  
-														  </tr>
-													  </thead>
-													  <tbody>
-			  
-														  {% for dados in routeTraveling %}
-														  <tr>
-														  
-															  <td>{{forloop.counter}}</td>
-															  <td>{{dados.munispiu}}</td>
-															  <td>{{dados.deskrisaun}}</td>
-									  
-													  
-															  <td>
-			  
-			  
-																  
-			  
-															   <!-- <a href="{% url 'rekrutamentu:publikavaga' dados.id|encrypt_id_tag %}" class="btn btn-primary btn-sm" >  <i class=" fas fa-volume-up"></i> Publika vaga</a> -->
-															   <a href="{% url 'travel:editroutetraveling' dados.id|encrypt_id_tag %}" class="btn btn-primary btn-sm" >  <i class="fas fa-edit"></i> </a>
-															   <!-- <a href="{% url 'rekrutamentu:publikavaga' dados.id|encrypt_id_tag %}" class="btn btn-primary btn-sm" >  <i class="fas fa-trash"></i> </a> -->
-																<a href="{% url 'travel:apagaroutetraveling' dados.id|encrypt_id_tag %}" class="btn btn-primary btn-sm" >  <i class="fas fa-trash"></i> </a>
-		  
-															   
-			  
-															  </td>
-														  </tr>
-														  {% endfor %}
-													  
-													  </tbody>
-												  </table>
-		  
-		  
-												 </div>
-												
-												  </div>
-										
-												  <div class="card-body">
-													  <legend>
-													   <h5 class="card-header">Mission  <a href="{% url 'travel:addmissiontraveling'  travelautorization.id|encrypt_id_tag  %}" class="btn btn-primary btn-sm float-right ">  <i class="far fa-paper-plane"></i> Add Mission</a></h5>
-			   
-													   
-													  </legend>
-													  <div class="table-responsive">
-													   <table class="table table-sm table-bordered">
-														   <thead class="bg-light">
-															   <tr class="border-0">
-																   <th class="border-0">Nu</th>
-																   <th class="border-0"> Mission</th>
-																   <th class="border-0">#</th>
-														   
-															   </tr>
-														   </thead>
-														   <tbody>
-				   
-															   {% for dados in missionTraveling %}
-															   <tr>
-															   
-																   <td>{{forloop.counter}}</td>
-																   <td>{{dados.mission}}</td>
-										   
-														   
-																   <td>
-				   
-				   
-																	   
-				   
-																	<!-- <a href="{% url 'rekrutamentu:publikavaga' dados.id|encrypt_id_tag %}" class="btn btn-primary btn-sm" >  <i class=" fas fa-volume-up"></i> Publika vaga</a> -->
-																	<a href="{% url 'travel:editmissiontraveling' dados.id|encrypt_id_tag %}" class="btn btn-primary btn-sm" >  <i class="fas fa-edit"></i> </a>
-																	<!-- <a href="{% url 'rekrutamentu:publikavaga' dados.id|encrypt_id_tag %}" class="btn btn-primary btn-sm" >  <i class="fas fa-trash"></i> </a> -->
-																	 <a href="{% url 'travel:apagamissiontraveling' dados.id|encrypt_id_tag %}" class="btn btn-primary btn-sm" >  <i class="fas fa-trash"></i> </a>
-			   
-																	
-				   
-																   </td>
-															   </tr>
-															   {% endfor %}
-														   
-														   </tbody>
-													   </table>
-			   
-			   
-													  </div>
-													 
-													   </div>
-
-                                        <div class="card-footer bg-white">
-                                            <p class="mb-0">2983 Glenview Drive Corpus Christi, TX 78476</p>
-                                        </div>
-                                    </div>
+									</div>
+									{% elif tab == 'Person' %}
+									<legend>
+										<h5 class="card-header">Person Traveling  <a href="{% url 'travel:addpersontraveling'  travelautorization.id|encrypt_id_tag  %}" class="btn btn-primary btn-sm float-right ">  <i class="far fa-paper-plane"></i> Add Person</a></h5>
+									</legend>
+									<div class="table-responsive">
+										<table class="table table-sm table-bordered">
+											<thead class="bg-light">
+												<tr class="border-0">
+													<th class="border-0">Nu</th>
+													<th class="border-0"> Employee</th>
+													<th class="border-0">#</th>
+												</tr>
+											</thead>
+											<tbody>
+												{% if dados %}
+													{% for dadoslp in dados %}
+													<tr>
+														<td>{{forloop.counter}}</td>
+														<td>{{dadoslp.employee}}</td>
+														<td>
+															<a href="{% url 'travel:editpersontraveling' dadoslp.id|encrypt_id_tag %}" class="btn btn-primary btn-sm" >  <i class="fas fa-edit"></i> </a>
+															<a href="{% url 'travel:apagapersontraveling' dadoslp.id|encrypt_id_tag %}" class="btn btn-primary btn-sm" >  <i class="fas fa-trash"></i> </a>
+														</td>
+													</tr>
+													{% endfor %}
+												{% else %}
+													<tr>
+														<td colspan="3">No Person Traveling listed</td>
+													</tr>
+												{% endif %}
+											</tbody>
+										</table>
+									</div>
+									{% elif tab == 'Route' %}
+									<legend>
+										<h5 class="card-header">Route Traveling  <a href="{% url 'travel:addroutetraveling'  travelautorization.id|encrypt_id_tag  %}" class="btn btn-primary btn-sm float-right ">  <i class="far fa-paper-plane"></i> Add Route</a></h5>
+									</legend>
+									<div class="table-responsive">
+										<table class="table table-sm table-bordered">
+											<thead class="bg-light">
+												<tr class="border-0">
+													<th class="border-0">Nu</th>
+													<th class="border-0"> Munisipiu</th>
+													<th class="border-0"> Deskrisaun</th>
+													<th class="border-0">#</th>
+												</tr>
+											</thead>
+											<tbody>
+												{% if dados %}
+													{% for dadoslp in dados %}
+													<tr>
+														<td>{{forloop.counter}}</td>
+														<td>{{dadoslp.munispiu}}</td>
+														<td>{{dadoslp.deskrisaun}}</td>
+														<td>
+															<a href="{% url 'travel:editroutetraveling' dadoslp.id|encrypt_id_tag %}" class="btn btn-primary btn-sm" >  <i class="fas fa-edit"></i> </a>
+															<a href="{% url 'travel:apagaroutetraveling' dadoslp.id|encrypt_id_tag %}" class="btn btn-primary btn-sm" >  <i class="fas fa-trash"></i> </a>
+														</td>
+													</tr>
+													{% endfor %}
+												{% else %}
+													<tr>
+														<td colspan="4">No Route listed</td>
+													</tr>
+												{% endif %}
+											</tbody>
+										</table>
+									</div>
+									{% elif tab == 'Mission' %}
+									<legend>
+										<h5 class="card-header">Mission  <a href="{% url 'travel:addmissiontraveling'  travelautorization.id|encrypt_id_tag  %}" class="btn btn-primary btn-sm float-right ">  <i class="far fa-paper-plane"></i> Add Mission</a></h5>
+									</legend>
+									<div class="table-responsive">
+										<table class="table table-sm table-bordered">
+											<thead class="bg-light">
+												<tr class="border-0">
+													<th class="border-0">Nu</th>
+													<th class="border-0"> Mission</th>
+													<th class="border-0">#</th>
+												</tr>
+											</thead>
+											<tbody>
+												{% if dados %}
+													{% for dadoslp in dados %}
+													<tr>
+														<td>{{forloop.counter}}</td>
+														<td>{{dadoslp.mission}}</td>
+														<td>
+															<a href="{% url 'travel:editmissiontraveling' dadoslp.id|encrypt_id_tag %}" class="btn btn-primary btn-sm" >  <i class="fas fa-edit"></i> </a>
+															<a href="{% url 'travel:apagamissiontraveling' dadoslp.id|encrypt_id_tag %}" class="btn btn-primary btn-sm" >  <i class="fas fa-trash"></i> </a>
+														</td>
+													</tr>
+													{% endfor %}
+												{% else %}
+													<tr>
+														<td colspan="3">No Mission listed</td>
+													</tr>
+												{% endif %}
+											</tbody>
+										</table>
+									</div>
+									{% else %}
+										<h5><center>Please select one of the above tab</center></h5>
+									{% endif %}
                                 </div>
+                            </div>
+                        </div>
+                        <!-- ============================================================== -->
+                        <!-- end simple tabs  -->
+						
                             </div>
 						
 

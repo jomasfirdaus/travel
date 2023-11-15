@@ -15,7 +15,7 @@ class RequestTravelForm(forms.ModelForm):
     class Meta:
         model = TravelAutorization
         fields = '__all__'  # You can specify the fields you want to include if needed
-        exclude = ['contract','hashed']
+        exclude = ['contract','is_draft']
 
     def __init__(self, *args, **kwargs):
         super(RequestTravelForm, self).__init__(*args, **kwargs)
@@ -44,10 +44,6 @@ class RequestTravelForm(forms.ModelForm):
             Row(
                 Column('return_date', css_class='col-md-6'),
             ),
-
-            Row(
-                Column('is_draft', css_class='col-md-6'),
-            ),
             
             Row(
                 Column('description', css_class='col-md-6'),
@@ -67,7 +63,6 @@ class RequestTravelForm(forms.ModelForm):
         self.fields['departure_date'].widget.input_type = 'date'
         self.fields['place_of_departure'].widget.attrs['class'] = 'form-control'
         self.fields['return_date'].widget.input_type = 'date'
-        self.fields['is_draft'].widget.attrs['class'] = 'form-control'
         self.fields['description'].widget.attrs['class'] = 'form-control'
 
 

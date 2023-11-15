@@ -10,6 +10,8 @@ urlpatterns = [
 	path('edit/request/travel/<str:id>/', views.editrequesttravel, name='editrequesttravel'),
 	path('detallu/request/travel/<str:id>/', views.detallutravelrequest, name='detallutravelrequest'),
     
+	path('detallu/request/travel/tab/<str:id>/<str:tab>/', views.detallutravelrequesttab, name='detallutravelrequesttab'),
+    
 	path('add/car/travel/<str:id_riquest>/', views.addcarrequest, name='addcarrequest'),
 	path('edit/car/travel/<str:id_item>/', views.editcarrequest, name='editcarrequest'),
 	path('apaga/car/travel/<str:id_item>/', views.apagacarrequest, name='apagacarrequest'),

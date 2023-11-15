@@ -12,7 +12,7 @@ from django.core.exceptions import ObjectDoesNotExist
 #Your Code Here
 
 def listatravelautorization(request):
-    dadosta = TravelAutorization.objects.all().order_by('-id')
+    dadosta = TravelAutorization.objects.filter(contract=request.contract).order_by('-id')
     context = {
         "dadosta" : dadosta,
         "pajina_travel" : "active",
@@ -75,22 +75,37 @@ def editrequesttravel(request, id):
 def detallutravelrequest(request, id):
     id = decrypt_id(id)
     travelautorization = TravelAutorization.objects.get(id=id)
-    carRequest = CarRequest.objects.filter(travel_autorization=travelautorization)
-    personTraveling = PersonTraveling.objects.filter(travel_autorization=travelautorization)
-    routeTraveling = PersonTraveling.objects.filter(travel_autorization=travelautorization)
-    missionTraveling = DetailMission.objects.filter(travel_autorization=travelautorization)
-
     # timeline = RequestOrderAprove.objects.filter(request_order=id)
-
-
     context = {
 
         "travelautorization" : travelautorization,
-        "carRequest" : carRequest,
-        "personTraveling" : personTraveling,
-        "routeTraveling" : routeTraveling,
-        "missionTraveling" : missionTraveling,
         "pajina_travel" : "active",
         # "timeline" : timeline,
-            }
+    }
+    return render(request, 'travel/detallu_travelrequest.html',context)
+
+
+def detallutravelrequesttab(request, id, tab):
+    id = decrypt_id(id)
+    travelautorization = TravelAutorization.objects.get(id=id)
+    dados = None
+    if tab == 'Car':
+        dados = CarRequest.objects.filter(travel_autorization=travelautorization)
+    elif tab == 'Person':
+        dados = PersonTraveling.objects.filter(travel_autorization=travelautorization)
+    elif tab == "Tour":
+        dados = RouteTravel.objects.filter(travel_autorization=travelautorization)
+    elif tab == "Mission":
+        dados = DetailMission.objects.filter(travel_autorization=travelautorization)
+
+    # timeline = RequestOrderAprove.objects.filter(request_order=id)
+
+    context = {
+        "pajina_travel" : "active",
+        "travelautorization" : travelautorization,
+        "dados": dados,
+        "tab_"+str(tab): "active border-left-0",
+        "tab" : tab,
+        # "timeline" : timeline,
+    }
     return render(request, 'travel/detallu_travelrequest.html',context)

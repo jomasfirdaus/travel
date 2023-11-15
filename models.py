@@ -20,7 +20,7 @@ class TravelAutorization(models.Model):
     purpose_of_travel = models.CharField(max_length=100, null = False, blank = False)
     project_name = models.CharField(max_length=100, null = False, blank = False)
     is_draft = models.BooleanField(default=True)
-    description = models.TextField(null=False, blank=False)
+    description = models.TextField(null=True, blank=True)
     
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, related_name="TravelAutorizationcreatedby")
     created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
@@ -156,6 +156,7 @@ class RouteTravel(models.Model):
 
 
 class AproveTravelAutorization(models.Model):
+    contract = models.ForeignKey(Contract, on_delete=models.CASCADE, null=True, blank=False, related_name="AproveTravelAutorizationcontract")
     travelautorization = models.ForeignKey(TravelAutorization, on_delete=models.CASCADE, null=True, blank=False, related_name="AproveTravelAutorizationmedicalexpense")
     status = models.CharField(choices=[('Review','Review'),('Acepted','Acepted'),('Rejected','Rejected')],max_length=30, null=True, blank=True)
     description = models.TextField(null=False, blank=False)
