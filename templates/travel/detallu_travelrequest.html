@@ -73,7 +73,7 @@
                                 <div class="tab-content" id="myTabContent5">
                                     {% if tab == 'Car' %}
 									<legend>
-										<h5 class="card-header">Car Request  <a href="{% url 'travel:addcarrequest'  travelautorization.id|encrypt_id_tag  %}" class="btn btn-primary btn-sm float-right ">  <i class="far fa-paper-plane"></i> Add Car</a></h5>
+										<h5 class="card-header">Car Request {% if travelautorization.is_draft %}<a href="{% url 'travel:addcarrequest'  travelautorization.id|encrypt_id_tag  %}" class="btn btn-primary btn-sm float-right ">  <i class="far fa-paper-plane"></i> Add Car</a></h5>{% endif %}
 									</legend>
 									<div class="table-responsive">
 										<table class="table table-sm table-bordered">
@@ -95,14 +95,18 @@
 														<td>{{dadoslp.car}}</td>
 														<td>{{dadoslp.driver}}</td>
 														<td>
+															{% if travelautorization.is_draft %}
 															<a href="{% url 'travel:editcarrequest' dadoslp.id|encrypt_id_tag %}" class="btn btn-primary btn-sm" >  <i class="fas fa-edit"></i> </a>
 															<a href="{% url 'travel:apagacarrequest' dadoslp.id|encrypt_id_tag %}" class="btn btn-primary btn-sm" >  <i class="fas fa-trash"></i> </a>
+															{% else %}
+															-
+															{% endif %}
 														</td>
 													</tr>
 													{% endfor %}
 												{% else %}
 													<tr>
-														<td colspan="4">No Car Listed</td>
+														<td colspan="4" align="center">No Car Listed</td>
 													</tr>
 												{% endif %}
 											</tbody>
@@ -110,7 +114,7 @@
 									</div>
 									{% elif tab == 'Person' %}
 									<legend>
-										<h5 class="card-header">Person Traveling  <a href="{% url 'travel:addpersontraveling'  travelautorization.id|encrypt_id_tag  %}" class="btn btn-primary btn-sm float-right ">  <i class="far fa-paper-plane"></i> Add Person</a></h5>
+										<h5 class="card-header">Person Traveling {% if travelautorization.is_draft %}<a href="{% url 'travel:addpersontraveling'  travelautorization.id|encrypt_id_tag  %}" class="btn btn-primary btn-sm float-right ">  <i class="far fa-paper-plane"></i> Add Person</a></h5>{% endif %}
 									</legend>
 									<div class="table-responsive">
 										<table class="table table-sm table-bordered">
@@ -128,14 +132,18 @@
 														<td>{{forloop.counter}}</td>
 														<td>{{dadoslp.employee}}</td>
 														<td>
+															{% if travelautorization.is_draft %}
 															<a href="{% url 'travel:editpersontraveling' dadoslp.id|encrypt_id_tag %}" class="btn btn-primary btn-sm" >  <i class="fas fa-edit"></i> </a>
 															<a href="{% url 'travel:apagapersontraveling' dadoslp.id|encrypt_id_tag %}" class="btn btn-primary btn-sm" >  <i class="fas fa-trash"></i> </a>
+															{% else %}
+															-
+															{% endif %}
 														</td>
 													</tr>
 													{% endfor %}
 												{% else %}
 													<tr>
-														<td colspan="3">No Person Traveling listed</td>
+														<td colspan="3" align="center">No Person Traveling listed</td>
 													</tr>
 												{% endif %}
 											</tbody>
@@ -143,7 +151,7 @@
 									</div>
 									{% elif tab == 'Route' %}
 									<legend>
-										<h5 class="card-header">Route Traveling  <a href="{% url 'travel:addroutetraveling'  travelautorization.id|encrypt_id_tag  %}" class="btn btn-primary btn-sm float-right ">  <i class="far fa-paper-plane"></i> Add Route</a></h5>
+										<h5 class="card-header">Route Traveling {% if travelautorization.is_draft %}<a href="{% url 'travel:addroutetraveling'  travelautorization.id|encrypt_id_tag  %}" class="btn btn-primary btn-sm float-right ">  <i class="far fa-paper-plane"></i> Add Route</a></h5>{% endif %}
 									</legend>
 									<div class="table-responsive">
 										<table class="table table-sm table-bordered">
@@ -160,17 +168,21 @@
 													{% for dadoslp in dados %}
 													<tr>
 														<td>{{forloop.counter}}</td>
-														<td>{{dadoslp.munispiu}}</td>
+														<td>{{dadoslp.munisipiu}}</td>
 														<td>{{dadoslp.deskrisaun}}</td>
 														<td>
+															{% if travelautorization.is_draft %}
 															<a href="{% url 'travel:editroutetraveling' dadoslp.id|encrypt_id_tag %}" class="btn btn-primary btn-sm" >  <i class="fas fa-edit"></i> </a>
 															<a href="{% url 'travel:apagaroutetraveling' dadoslp.id|encrypt_id_tag %}" class="btn btn-primary btn-sm" >  <i class="fas fa-trash"></i> </a>
+															{% else %}
+															-
+															{% endif %}
 														</td>
 													</tr>
 													{% endfor %}
 												{% else %}
 													<tr>
-														<td colspan="4">No Route listed</td>
+														<td colspan="4" align="center">No Route listed</td>
 													</tr>
 												{% endif %}
 											</tbody>
@@ -178,7 +190,7 @@
 									</div>
 									{% elif tab == 'Mission' %}
 									<legend>
-										<h5 class="card-header">Mission  <a href="{% url 'travel:addmissiontraveling'  travelautorization.id|encrypt_id_tag  %}" class="btn btn-primary btn-sm float-right ">  <i class="far fa-paper-plane"></i> Add Mission</a></h5>
+										<h5 class="card-header">Mission {% if travelautorization.is_draft %}<a href="{% url 'travel:addmissiontraveling'  travelautorization.id|encrypt_id_tag  %}" class="btn btn-primary btn-sm float-right ">  <i class="far fa-paper-plane"></i> Add Mission</a></h5>{% endif %}
 									</legend>
 									<div class="table-responsive">
 										<table class="table table-sm table-bordered">
@@ -196,14 +208,18 @@
 														<td>{{forloop.counter}}</td>
 														<td>{{dadoslp.mission}}</td>
 														<td>
+															{% if travelautorization.is_draft %}
 															<a href="{% url 'travel:editmissiontraveling' dadoslp.id|encrypt_id_tag %}" class="btn btn-primary btn-sm" >  <i class="fas fa-edit"></i> </a>
 															<a href="{% url 'travel:apagamissiontraveling' dadoslp.id|encrypt_id_tag %}" class="btn btn-primary btn-sm" >  <i class="fas fa-trash"></i> </a>
+															{% else %}
+															-
+															{% endif %}
 														</td>
 													</tr>
 													{% endfor %}
 												{% else %}
 													<tr>
-														<td colspan="3">No Mission listed</td>
+														<td colspan="3" align="center">No Mission listed</td>
 													</tr>
 												{% endif %}
 											</tbody>
@@ -230,7 +246,7 @@
                               
 								
 
-			{% include 'timeline.html' %}
+			{% include 'timelinetravel.html' %}
 									   </div>
 									  
                                         </div>
