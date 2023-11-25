@@ -74,6 +74,14 @@ class CarRequestForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(CarRequestForm, self).__init__(*args, **kwargs)
 
+        # Ambil semua mobil dan pengemudi yang belum terdaftar di CarRequest
+        existing_cars = CarRequest.objects.values_list('car', flat=True)
+        existing_drivers = CarRequest.objects.values_list('driver', flat=True)
+
+        # Filter querysets untuk menampilkan mobil dan pengemudi yang belum terdaftar
+        self.fields['car'].queryset = Car.objects.exclude(id__in=existing_cars)
+        self.fields['driver'].queryset = Employee.objects.exclude(id__in=existing_drivers)
+
         # Create a form helper and specify the layout
         self.helper = FormHelper()
         self.helper.layout = Layout(

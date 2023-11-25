@@ -58,9 +58,6 @@
                             <div class="simple-card">
                                 <ul class="nav nav-tabs" id="myTab5" role="tablist">
                                     <li class="nav-item">
-                                        <a class="nav-link {{tab_Car}}" data-toggle="tab" href="{% url 'travel:detallutravelrequesttab' travelautorization.id|encrypt_id_tag 'Car' %}" role="tab" aria-controls="home" aria-selected="true">Car Request</a>
-                                    </li>
-                                    <li class="nav-item">
                                         <a class="nav-link {{tab_Person}}" data-toggle="tab" href="{% url 'travel:detallutravelrequesttab' travelautorization.id|encrypt_id_tag 'Person' %}" role="tab" aria-controls="home" aria-selected="true">Person Traveling</a>
                                     </li>
                                     <li class="nav-item">
@@ -69,11 +66,14 @@
                                     <li class="nav-item">
                                         <a class="nav-link {{tab_Mission}}" data-toggle="tab" href="{% url 'travel:detallutravelrequesttab' travelautorization.id|encrypt_id_tag 'Mission' %}" role="tab" aria-controls="home" aria-selected="true">Mission</a>
                                     </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link {{tab_Car}}" data-toggle="tab" href="{% url 'travel:detallutravelrequesttab' travelautorization.id|encrypt_id_tag 'Car' %}" role="tab" aria-controls="home" aria-selected="true">Car</a>
+                                    </li>
                                 </ul>
                                 <div class="tab-content" id="myTabContent5">
                                     {% if tab == 'Car' %}
 									<legend>
-										<h5 class="card-header">Car Request {% if travelautorization.is_draft %}<a href="{% url 'travel:addcarrequest'  travelautorization.id|encrypt_id_tag  %}" class="btn btn-primary btn-sm float-right ">  <i class="far fa-paper-plane"></i> Add Car</a></h5>{% endif %}
+										<h5 class="card-header">Car</h5>
 									</legend>
 									<div class="table-responsive">
 										<table class="table table-sm table-bordered">

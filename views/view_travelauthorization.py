@@ -125,13 +125,11 @@ def sendtravelrequest(request, id):
 
     if DetailMission.objects.filter(
         travel_autorization=travelautorization
-        ).exists() and CarRequest.objects.filter(
+        ).exists() and PersonTraveling.objects.filter(
             travel_autorization=travelautorization
-            ).exists() and PersonTraveling.objects.filter(
+            ).exists() and RouteTravel.objects.filter(
                 travel_autorization=travelautorization
-                ).exists() and RouteTravel.objects.filter(
-                    travel_autorization=travelautorization
-                    ).count() > 1:
+                ).count() > 1:
         try:
             request_trip_aprove = AproveTravelAutorization.objects.filter(travelautorization__id=id)
             request_trip_aprove.delete()

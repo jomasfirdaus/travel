@@ -47,7 +47,12 @@
                         {% if forloop.last %}
                         <a href="{% url 'travel:aceptedtravelautorization' dados.id|encrypt_id_tag 'last'|encrypt_id_tag %}" id="acceptedButton" class="btn btn-primary btn-sm">Accept </a>  &nbsp;  
                         {% else %}
-                        <a href="{% url 'travel:aceptedtravelautorization' dados.id|encrypt_id_tag 'nlast'|encrypt_id_tag %}" id="acceptedButton" class="btn btn-primary btn-sm">Accept </a>  &nbsp;  
+                              {% if dados.travelautorization.CarRequesttravelautorization.all %}
+                              <a href="{% url 'travel:addcarrequest'  travelautorization.id|encrypt_id_tag  %}" class="btn btn-primary btn-sm"> Add Car</a>   &nbsp;
+                              <a href="{% url 'travel:aceptedtravelautorization' dados.id|encrypt_id_tag 'nlast'|encrypt_id_tag %}" id="acceptedButton" class="btn btn-primary btn-sm">Accept </a>  &nbsp;
+                              {% else %}
+                              <a href="{% url 'travel:addcarrequest'  travelautorization.id|encrypt_id_tag  %}" class="btn btn-primary btn-sm"> Add Car</a>   &nbsp;
+                              {% endif %}
                         {% endif %}
                         <a href="{% url 'travel:rijectedtravelautorization' dados.id|encrypt_id_tag %}" class="btn btn-primary btn-sm">Reject</a>
                       {% endif %}  </span>
