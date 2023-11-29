@@ -58,7 +58,7 @@ def addroutetraveling(request,id_riquest):
             instance.status = "Pendente"
             instance.save()
             messages.success(request, 'Request created successfully.')  # Success message
-            return redirect('travel:detallutravelrequest', id = encript_id_riquest )
+            return redirect('travel:detallutravelrequesttab', id = encript_id_riquest, tab = 'Route')
         else:
             messages.error(request, 'There was an error. Please correct the form.')  # Error message
             return redirect('travel:addroutetraveling', id_riquest = encript_id_riquest)

@@ -89,6 +89,8 @@ def detallutravelrequest(request, id):
 
 def detallutravelrequesttab(request, id, tab):
     id = decrypt_id(id)
+
+
     travelautorization = TravelAutorization.objects.get(id=id)
     dados = None
     if tab == 'Car':
@@ -101,6 +103,7 @@ def detallutravelrequesttab(request, id, tab):
         dados = DetailMission.objects.filter(travel_autorization=travelautorization)
 
     timeline = AproveTravelAutorization.objects.filter(travelautorization=id)
+
 
     context = {
         "pajina_travel" : "active",
@@ -129,7 +132,7 @@ def sendtravelrequest(request, id):
             travel_autorization=travelautorization
             ).exists() and RouteTravel.objects.filter(
                 travel_autorization=travelautorization
-                ).count() > 1:
+                ).exists():
         try:
             request_trip_aprove = AproveTravelAutorization.objects.filter(travelautorization__id=id)
             request_trip_aprove.delete()

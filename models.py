@@ -1,9 +1,9 @@
 from datetime import timezone
 from django.db import models
-from django.contrib.auth.models import User, Group
-from employee.models import Employee
+from django.contrib.auth.models import User
 from contract.models import Contract
-from custom.models import Level, Donor, Mission, Car, Munisipiu
+from custom.models import Car, Munisipiu
+from django.core.validators import FileExtensionValidator
 
 # Create your models here.
 
@@ -47,9 +47,11 @@ class TravelAutorization(models.Model):
 
 
 class DetailMission(models.Model):
-    mission = models.ForeignKey(Mission, on_delete=models.CASCADE, null=True, blank=False, related_name="DetailMissionmission")
+    # mission = models.ForeignKey(Mission, on_delete=models.CASCADE, null=True, blank=False, related_name="DetailMissionmission")
     travel_autorization = models.ForeignKey(TravelAutorization, on_delete=models.CASCADE, null=True, blank=False, related_name="DetailMissiontravelautorization")
-    
+    file = models.FileField(upload_to="upload_mission", null=True, blank=True,
+			validators=[FileExtensionValidator(allowed_extensions=['pdf'])], verbose_name="Attach Mission File")
+
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, related_name="DetailMissioncreatedbys")
     created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     updated_by = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, related_name="DetailMissionupdatetedbys")
@@ -58,7 +60,7 @@ class DetailMission(models.Model):
     deleted_at = models.DateTimeField(null=True, blank=True)
 
     def __str__(self):
-        template = '{0.name}'
+        template = '{0.travel_autorization}'
         return template.format(self)
     
     def delete(self, user):

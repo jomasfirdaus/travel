@@ -87,10 +87,10 @@
 																	{% endif %}
 																</td>
 																<td>
-																	{% if not dados.is_aproved %}
+																	{% if dados.is_draft %}
 																	<a href="{% url 'travel:editrequesttravel' dados.id|encrypt_id_tag %}" class="btn btn-primary btn-sm" >  <i class="fas fa-edit"></i> </a>
 																	{% endif %}
-																	<a href="{% url 'travel:detallutravelrequest' dados.id|encrypt_id_tag %}" class="btn btn-primary btn-sm" >  <i class="fas fa-edit"></i> Detallu Travel </a>
+																	<a href="{% url 'travel:detallutravelrequesttab' dados.id|encrypt_id_tag 'Person' %}" class="btn btn-primary btn-sm" >  <i class="fas fa-edit"></i> Detallu Travel </a>
 																</td>
 															</tr>
 															{% endfor %}

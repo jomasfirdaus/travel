@@ -25,7 +25,7 @@ def aceptedtravelautorization(request, id, last):
             if last == 'last':
                 idrequest.is_aproved=True
                 idrequest.save()
-            messages.success(request, 'Rejeita ho susesu')  # Success message
+            messages.success(request, 'Aprova ho susesu')  # Success message
             return redirect('travel:detallutravelrequest', id = idrequest2)
         else:
             messages.success(request, 'Rejeita Faila')  # Success message

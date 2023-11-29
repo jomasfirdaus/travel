@@ -58,7 +58,7 @@ def addmissiontraveling(request,id_riquest):
             instance.status = "Pendente"
             instance.save()
             messages.success(request, 'Request created successfully.')  # Success message
-            return redirect('travel:detallutravelrequest', id = encript_id_riquest )
+            return redirect('travel:detallutravelrequesttab', id = encript_id_riquest, tab = 'Mission')
         else:
             messages.error(request, 'There was an error. Please correct the form.')  # Error message
             return redirect('travel:addmissiontraveling', id_riquest = encript_id_riquest)
@@ -87,7 +87,7 @@ def editmissiontraveling(request,id_item):
             instance = form.save(commit=False)
             instance.save()
             messages.success(request, 'Request created successfully.')  # Success message
-            return redirect('travel:detallutravelrequest', id = id_request )
+            return redirect('travel:detallutravelrequesttab', id = id_request, tab = 'Mission')
         else:
             messages.error(request, 'There was an error. Please correct the form.')  # Error message
             return redirect('travel:addmissiontraveling', id_item = id_item)

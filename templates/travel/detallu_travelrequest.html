@@ -55,8 +55,10 @@
 								<!-- Simple tabs  -->
                         <!-- ============================================================== -->
                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mb-5">
-                            <div class="simple-card">
-                                <ul class="nav nav-tabs" id="myTab5" role="tablist">
+                            <div class="card">
+								<div class="card-body p-0">
+									<div class="tab-outline">
+                                <ul class="nav nav-tabs" id="myTab2" role="tablist">
                                     <li class="nav-item">
                                         <a class="nav-link {{tab_Person}}" data-toggle="tab" href="{% url 'travel:detallutravelrequesttab' travelautorization.id|encrypt_id_tag 'Person' %}" role="tab" aria-controls="home" aria-selected="true">Person Traveling</a>
                                     </li>
@@ -67,13 +69,14 @@
                                         <a class="nav-link {{tab_Mission}}" data-toggle="tab" href="{% url 'travel:detallutravelrequesttab' travelautorization.id|encrypt_id_tag 'Mission' %}" role="tab" aria-controls="home" aria-selected="true">Mission</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link {{tab_Car}}" data-toggle="tab" href="{% url 'travel:detallutravelrequesttab' travelautorization.id|encrypt_id_tag 'Car' %}" role="tab" aria-controls="home" aria-selected="true">Car</a>
+                                        <a class="nav-link {{tab_Car}}" data-toggle="tab" href="{% url 'travel:detallutravelrequesttab' travelautorization.id|encrypt_id_tag 'Car' %}" role="tab" aria-controls="home" aria-selected="true">Driver & Car</a>
                                     </li>
                                 </ul>
-                                <div class="tab-content" id="myTabContent5">
+								</div></div>
+                                <div class="tab-content" id="myTabContent2">
                                     {% if tab == 'Car' %}
 									<legend>
-										<h5 class="card-header">Car</h5>
+										<h5 class="card-header">Car and Driver {% if request.contract.position.name == "Director" and request.contract.department.name == "Logystic" %}<a href="{% url 'travel:addcarrequest'  travelautorization.id|encrypt_id_tag  %}" class="btn btn-primary btn-sm float-right ">  <i class="far fa-paper-plane"></i> Add Car & Driver</a>{% endif %}</h5>
 									</legend>
 									<div class="table-responsive">
 										<table class="table table-sm table-bordered">
@@ -106,7 +109,7 @@
 													{% endfor %}
 												{% else %}
 													<tr>
-														<td colspan="4" align="center">No Car Listed</td>
+														<td colspan="4" align="center">No Car and DriverListed</td>
 													</tr>
 												{% endif %}
 											</tbody>
@@ -206,7 +209,7 @@
 													{% for dadoslp in dados %}
 													<tr>
 														<td>{{forloop.counter}}</td>
-														<td>{{dadoslp.mission}}</td>
+														<td>{{dadoslp.file.name}}</td>
 														<td>
 															{% if travelautorization.is_draft %}
 															<a href="{% url 'travel:editmissiontraveling' dadoslp.id|encrypt_id_tag %}" class="btn btn-primary btn-sm" >  <i class="fas fa-edit"></i> </a>

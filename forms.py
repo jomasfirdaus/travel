@@ -67,20 +67,31 @@ class RequestTravelForm(forms.ModelForm):
 
 
 class CarRequestForm(forms.ModelForm):
+    start_date = forms.DateField()
+    end_date = forms.DateField()
+
     class Meta:
         model = CarRequest
         fields = ['car', 'driver']
 
     def __init__(self, *args, **kwargs):
+        self.request = kwargs.pop('request', None)
+        self.start_date = kwargs.pop('start_date', None)
+        self.end_date = kwargs.pop('end_date', None)
+
         super(CarRequestForm, self).__init__(*args, **kwargs)
 
-        # Ambil semua mobil dan pengemudi yang belum terdaftar di CarRequest
-        existing_cars = CarRequest.objects.values_list('car', flat=True)
-        existing_drivers = CarRequest.objects.values_list('driver', flat=True)
+        # Update the queryset for the car field
+        self.fields['car'].queryset = self.get_available_cars()
+        self.fields['driver'].queryset = self.get_available_drivers()
 
-        # Filter querysets untuk menampilkan mobil dan pengemudi yang belum terdaftar
-        self.fields['car'].queryset = Car.objects.exclude(id__in=existing_cars)
-        self.fields['driver'].queryset = Employee.objects.exclude(id__in=existing_drivers)
+        # # Ambil semua mobil dan pengemudi yang belum terdaftar di CarRequest
+        # existing_cars = CarRequest.objects.values_list('car', flat=True)
+        # existing_drivers = CarRequest.objects.values_list('driver', flat=True)
+        
+        # # Filter querysets untuk menampilkan mobil dan pengemudi yang belum terdaftar
+        # self.fields['car'].queryset = Car.objects.exclude(id__in=existing_cars)
+        # self.fields['driver'].queryset = Contract.objects.exclude(id__in=existing_drivers)
 
         # Create a form helper and specify the layout
         self.helper = FormHelper()
@@ -108,6 +119,42 @@ class CarRequestForm(forms.ModelForm):
         # Add CSS classes to form fields if needed
         self.fields['car'].widget.attrs['class'] = 'form-control'
         self.fields['driver'].widget.attrs['class'] = 'form-control'
+
+
+    def get_available_cars(self):
+        """
+        Returns a queryset of cars that do not have requests in the specified date range.
+        """
+
+        # if self.start_date is None or self.end_date is None:
+        #     return Car.objects.all()  # Atau sesuaikan dengan logika yang sesuai
+        
+        return Car.objects.exclude(
+            CarRequestcar__travel_autorization__departure_date__lte=self.end_date,
+            CarRequestcar__travel_autorization__return_date__gte=self.start_date
+        ).distinct()
+
+
+    def get_available_drivers(self):
+        """
+        Returns a queryset of cars that do not have requests in the specified date range.
+        """
+
+        # if self.start_date is None or self.end_date is None:
+        #     return Car.objects.all()  # Atau sesuaikan dengan logika yang sesuai
+        
+        return Contract.objects.exclude(
+            CarRequestemployee__travel_autorization__departure_date__lte=self.end_date,
+            CarRequestemployee__travel_autorization__return_date__gte=self.start_date
+        ).distinct()
+    
+
+    def clean(self):
+        cleaned_data = super().clean()
+
+        # Access self.start_date and self.end_date in your clean method as needed...
+
+        return cleaned_data
   
 
 
@@ -181,7 +228,7 @@ class RouteTravelForm(forms.ModelForm):
 class MissionTravelingForm(forms.ModelForm):
     class Meta:
         model = DetailMission
-        fields = ['mission']
+        fields = ['file']
 
     def __init__(self, *args, **kwargs):
         super(MissionTravelingForm, self).__init__(*args, **kwargs)
@@ -192,7 +239,7 @@ class MissionTravelingForm(forms.ModelForm):
 
             Row(
                 
-                Column('mission', css_class='col-md-6'),
+                Column('file', css_class='col-md-6'),
             ),
       
 
@@ -205,7 +252,7 @@ class MissionTravelingForm(forms.ModelForm):
         )
 
         # Add CSS classes to form fields if needed
-        self.fields['mission'].widget.attrs['class'] = 'form-control'
+        self.fields['file'].widget.attrs['class'] = 'form-control'
 
 
 class TravelRequestAproveForm(forms.ModelForm):

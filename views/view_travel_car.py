@@ -48,7 +48,13 @@ def addcarrequest(request,id_riquest):
     id_riquest = decrypt_id(id_riquest)
     travelautorization = TravelAutorization.objects.get(id=id_riquest)
 
-    form = CarRequestForm()
+    # start_date = request.GET.get('start_date')
+    # end_date = request.GET.get('end_date')
+    
+    start_date = travelautorization.departure_date
+    end_date = travelautorization.return_date
+
+    form = CarRequestForm(request=request, start_date=start_date, end_date=end_date)
 
     if request.method == 'POST':
         form = CarRequestForm(request.POST)
@@ -58,7 +64,7 @@ def addcarrequest(request,id_riquest):
             instance.status = "Pendente"
             instance.save()
             messages.success(request, 'Request created successfully.')  # Success message
-            return redirect('travel:detallutravelrequest', id = encript_id_riquest )
+            return redirect('travel:detallutravelrequesttab', id = encript_id_riquest, tab = 'Car')
         else:
             messages.error(request, 'There was an error. Please correct the form.')  # Error message
             return redirect('travel:addcarrequest', id_riquest = encript_id_riquest)
